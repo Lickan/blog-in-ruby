@@ -1,0 +1,7 @@
+<div class="comment">
+  <i><%=h comment.user.try :name %> says:</i><br />
+  <%= simple_format h(comment.content) %>
+  <%= link_to 'Destroy Comment', comment,
+    :confirm => 'Are you sure?',
+    :method => :delete %>
+</div>
