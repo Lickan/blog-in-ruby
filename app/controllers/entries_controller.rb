@@ -2,8 +2,15 @@ class EntriesController < ApplicationController
   # GET /entries
   # GET /entries.json
   def index
-    @entries = Entry.all
-
+    #if params[:user_id]
+    #  @entries = Entry.where(:user_id => params[:user_id])
+    #else 
+    #  @entries = Entry.all
+    #end
+    
+    @entries = Entry.where("")
+    @entries = @entries.where(:user_id => params[:user_id]) if params[:user_id]
+    @entries = @entries.order("created_at desc")
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @entries }
@@ -14,6 +21,7 @@ class EntriesController < ApplicationController
   # GET /entries/1.json
   def show
     @entry = Entry.find(params[:id])
+    @comment = Comment.new( :entry => @entry )
 
     respond_to do |format|
       format.html # show.html.erb

@@ -1,25 +1,51 @@
 <p id="notice"><%= notice %></p>
-
+<div class="entry">
 <p>
-  <b>Id:</b>
-  <%= @entry.id %>
+  
+  <h2><%= @entry.title %></h2>
 </p>
 
-<p>
-  <b>Title:</b>
-  <%= @entry.title %>
-</p>
-
-<p>
-  <b>Content:</b>
+<p class="entry-content">
   <%= @entry.content %>
 </p>
 
 <p>
   <b>Posted by:</b>
-  <%= @entry.posted_by %>
+  <%= @entry.user.name %>
+<br />
+  <b>Category:</b>
+  <%= @entry.category.name %>
 </p>
-
+</div>
 
 <%= link_to 'Edit', edit_entry_path(@entry) %> |
 <%= link_to 'Back', entries_path %>
+
+
+
+
+<hr />
+<%= render :partial => 'comment', :collection => @entry.comments %>
+<%= form_for(@comment) do |f| %>
+    <% if @comment.errors.any? %>
+        <div id="error_explanation">
+        <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+        <ul>
+            <% @comment.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+    <% end %>
+        </ul>
+    <% end %>
+        </div>
+    <%= f.hidden_field(:entry_id, :value => params[:id]) %>
+     <%= f.select :user_id, User.all.map {|u| [u.name, u.id]} %>
+    <div class="field">
+        <%= f.label :content %><br />
+        <%= f.text_area :content %>
+    </div>
+ 
+    <p>
+        <%= f.submit "Post Comment" %>
+    </p>
+<% end %>
