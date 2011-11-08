@@ -1,6 +1,18 @@
 Blog::Application.routes.draw do
+  resources :comments
+
+  resources :categories do 
+    resources :entries
+  end
+
+  resources :users do
+    resources :entries
+    #get "entries/:entry_id" => "entries#show", as: :entry
+  end
+
   resources :entries
-  root to: "entries#index"
+
+  #get '/users/:user_id/entries/:entry_id' => "entries#show", as: :user_entry
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
